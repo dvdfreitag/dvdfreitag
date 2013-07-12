@@ -1,4 +1,3 @@
-```html
 <h2>The dvdfreitag portfolio site</h2>
 
 <pre>
@@ -9,4 +8,3 @@
 		</div>
 	</div>
 </pre>
-```
