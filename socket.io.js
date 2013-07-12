@@ -15,9 +15,14 @@ app.configure(function() {
 	app.use(express.session({secret: 'secret', key: 'express.sid'}))
 });
 
+// Configure GET '/' to return index.html
+app.get('/', function(req, res) {
+	res.sendfile(__dirname + '/index.html');
+});
+
 //Create HTTP server on port 3000 and register socket.io as listener
 server = http.createServer(app)
-server.listen(3000);
+server.listen(51134);
 io = io.listen(server);
 
 // Configure global authorization handling. handshakeData will contain
@@ -51,7 +56,7 @@ io.set('authorization', function(handshakeData, accept) {
 });
 
 // upon connection, start a periodic task that emits (every 1s) the current timestamp
-io.on('connection', function() {
+io.on('connection', function(socket) {
 	var sender = setInterval(function () {
 		socket.emit('data', new Date().getTime());
 	}, 1000)
