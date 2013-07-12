@@ -52,9 +52,9 @@ io.set('authorization', function(handshakeData, accept) {
 
 // upon connection, start a periodic task that emits (every 1s) the current timestamp
 io.on('connection', function() {
-	var sender = setInterval(function() {
+	var sender = setInterval(function () {
 		socket.emit('data', new Date().getTime());
-	), 1000)
+	}, 1000)
 
 	socket.on('disconnect', function() {
 		clearInteval(sender);
