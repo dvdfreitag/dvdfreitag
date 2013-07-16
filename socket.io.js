@@ -2,8 +2,9 @@ var io      = require('socket.io')
 ,   http    = require('http')
 ,   express = require('express')
 ,   cookie  = require('cookie')
-,   connect = require('connect');
-    
+,   connect = require('connect')
+,   dba     = require('./dba.js');
+   
 // Create Express
 var app = express();
 
@@ -57,11 +58,13 @@ io.set('authorization', function(handshakeData, accept) {
 
 // upon connection, start a periodic task that emits (every 1s) the current timestamp
 io.on('connection', function(socket) {
+	dba.addVisitor(socket.handshake.address.address, new Date().getTime());
+	
 	var sender = setInterval(function () {
 		socket.emit('data', new Date().getTime());
 	}, 1000)
 
 	socket.on('disconnect', function() {
-		clearInteval(sender);
+		clearInterval(sender);
 	})
 });
